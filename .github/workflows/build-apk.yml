@@ -12,14 +12,18 @@ jobs:
         with: { node-version: 20 }
       - uses: actions/setup-java@v5
         with: { distribution: temurin, java-version: 17 }
+      - name: Prepare web folder
+        run: |
+          mkdir -p www
+          cp index.html www/index.html
       - run: npm install
       - run: npx cap add android
       - name: Add native code and fixed signing key
         run: |
           D=android/app/src/main/java/com/workshop/billing
           mkdir -p $D ~/.android
-          cp native/*.java $D/
-          cp native/debug.keystore ~/.android/debug.keystore
+          cp MainActivity.java FolderBackupPlugin.java $D/
+          cp debug.keystore ~/.android/debug.keystore
           sed -i '0,/^dependencies {/s//dependencies {\n    implementation "androidx.documentfile:documentfile:1.0.1"/' android/app/build.gradle
       - run: npx cap sync android
       - run: cd android && ./gradlew assembleDebug --console=plain --stacktrace
