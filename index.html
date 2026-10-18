@@ -1,0 +1,156 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>Workshop Billing</title><meta name="theme-color" content="#1c2430"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-capable" content="yes">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eceff1;--card:#fff;--ink:#1c2430;--mut:#667085;--line:#d5dae0;--acc:#f2b705;--acct:#1c2430;--ok:#1b7f4b;--bad:#c0392b;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#141a21;--card:#1e2630;--ink:#eef1f4;--mut:#9aa6b4;--line:#33404e;--acc:#f2b705;--acct:#141a21;--ok:#4cc38a;--bad:#ff7b6b;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#141a21;--card:#1e2630;--ink:#eef1f4;--mut:#9aa6b4;--line:#33404e;--acc:#f2b705;--acct:#141a21;--ok:#4cc38a;--bad:#ff7b6b;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.4 Barlow,system-ui,sans-serif}
+h1,h2,h3,.big{font-family:"Barlow Condensed","Arial Narrow",sans-serif;margin:0;letter-spacing:.02em}
+header{background:var(--acct);color:#fff;padding:6px 14px;display:flex;justify-content:space-between;align-items:center;gap:8px;position:sticky;top:env(safe-area-inset-top,0px);z-index:5;border-bottom:4px solid var(--acc)}
+header h1{font-size:21px}header small{opacity:.75;display:block;font-size:12px}.today{text-align:right;font-family:"Barlow Condensed",sans-serif;font-size:21px;color:var(--acc);line-height:1}
+nav{display:flex;gap:4px;padding:8px 8px 0;max-width:900px;margin:auto}
+nav button{flex:1;padding:8px 4px;border:0;border-radius:8px 8px 0 0;background:transparent;color:var(--mut);font:600 16px "Barlow Condensed",sans-serif;cursor:pointer}
+nav button.on{background:var(--card);color:var(--ink);box-shadow:inset 0 3px 0 var(--acc)}
+main{max-width:900px;margin:auto;padding:0 8px 40px}.pane{background:var(--card);border-radius:0 0 10px 10px;padding:10px;display:none}.pane.on{display:block}
+label{display:block;font-size:12px;color:var(--mut);margin:0 0 1px}
+input,select{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}
+input:focus,select:focus,button:focus-visible{outline:3px solid var(--acc);outline-offset:1px}
+.plate{font:700 26px "Barlow Condensed",sans-serif;text-transform:uppercase;letter-spacing:.08em;text-align:center;border-width:2.5px}
+.g{display:grid;gap:6px;grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.mt{margin-top:6px}textarea{width:100%;padding:8px 10px;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);font:inherit}summary{cursor:pointer;font:600 16px "Barlow Condensed",sans-serif;color:var(--mut);padding:4px 0 8px}details{margin-bottom:8px}.tot{padding:4px 0;margin-top:4px}
+.badge{margin:4px 0;padding:4px 8px;font-size:14px;border-radius:8px;font-weight:600;background:var(--bg);border-left:5px solid var(--mut)}
+.badge.found{border-color:var(--ok)}.badge.new{border-color:var(--acc)}
+.chips{display:flex;flex-wrap:wrap;gap:4px;max-height:92px;overflow-y:auto;padding:2px}.bar{position:sticky;bottom:0;background:var(--card);border-top:2px solid var(--acc);margin:8px -10px -10px;padding:4px 10px calc(8px + env(safe-area-inset-bottom,0px));z-index:4}.dr{border-left:5px solid var(--bad);padding-left:8px;background:rgba(192,57,43,.1)}.chip{border:1.5px solid var(--line);background:var(--bg);color:var(--ink);padding:4px 8px;border-radius:16px;font:500 13px Barlow,sans-serif;cursor:pointer}
+.chip:active{background:var(--acc);color:#111}.chip b{color:var(--mut);font-weight:500}
+.btn{border:0;border-radius:8px;padding:12px 16px;font:700 19px "Barlow Condensed",sans-serif;letter-spacing:.03em;cursor:pointer;background:var(--acct);color:#fff}
+.btn.pri{background:var(--acc);color:#111;width:100%;font-size:21px;padding:10px}.btn.sm{padding:7px 11px;font-size:16px}.btn.ghost{background:var(--bg);color:var(--ink);border:1.5px solid var(--line)}
+.line{display:grid;grid-template-columns:1fr 60px 84px 30px;gap:6px;margin-bottom:6px;align-items:center}.line button{border:0;background:none;color:var(--bad);font-size:22px;cursor:pointer}.line .c{text-align:center;padding:8px 2px}.hd{font-size:11px;color:var(--mut);margin-bottom:0}.hd span:nth-child(2),.hd span:nth-child(3){text-align:center}
+.tot{display:flex;justify-content:space-between;align-items:baseline;padding:10px 0;border-top:2px dashed var(--line);margin-top:8px}.tot .big{font-size:32px}
+.row{display:flex;justify-content:space-between;gap:8px;padding:6px 0;border-bottom:1px solid var(--line);align-items:center;cursor:pointer}
+.row small{color:var(--mut);display:block}.id{font:700 15px "Barlow Condensed",sans-serif;background:var(--acc);color:#111;padding:1px 7px;border-radius:4px;letter-spacing:.05em}
+.due{color:var(--bad);font-weight:700}.paid{color:var(--ok);font-weight:600}
+dialog{border:0;border-radius:12px;padding:16px;width:min(560px,94vw);background:var(--card);color:var(--ink)}dialog::backdrop{background:#0008}
+.log{font-size:14px;color:var(--mut);border-left:3px solid var(--line);padding-left:8px;margin:4px 0}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--acct);color:#fff;padding:10px 18px;border-radius:24px;border:2px solid var(--acc);display:none;z-index:20}
+#inv{display:none}
+@media print{body>*:not(#inv){display:none!important}#inv{display:block;color:#000;background:#fff;padding:10mm;font:14px Barlow,Arial,sans-serif}#inv table{width:100%;border-collapse:collapse}#inv td,#inv th{padding:5px;border-bottom:1px solid #999;text-align:left}#inv .r{text-align:right}}
+@media(max-width:480px){.line{grid-template-columns:1fr 52px 76px 26px}}
+</style></head><body>
+<header><div><h1 id="shopName">Workshop</h1></div><div><div class="today" id="today">Rs 0</div><small style="text-align:right">today <span id="dueTot" style="color:#ff8a7a;font-weight:700"></span></small></div></header>
+<nav id="nav"><button data-t="bill" class="on">New bill</button><button data-t="veh">Vehicles</button><button data-t="bills">Bills</button><button data-t="set">Setup</button></nav>
+<main>
+<section class="pane on" id="p-bill">
+ <label for="plate">Bike number</label><input id="plate" class="plate" list="plates" autocomplete="off" placeholder="BA 12 PA 3456" autofocus><datalist id="plates"></datalist>
+ <div id="badge" class="badge new">Type the bike number to begin</div>
+ <div class="g g3"><input id="owner" placeholder="Owner name"><input id="phone" inputmode="tel" placeholder="Phone"><input id="model" placeholder="Model"></div><input id="last" type="hidden">
+ <div id="lines" class="mt"></div>
+ <div style="display:grid;grid-template-columns:1fr 46px 70px auto;gap:6px"><input id="cn" placeholder="Other item / work"><input id="cq" inputmode="numeric" placeholder="Qty" style="text-align:center;padding:8px 2px"><input id="cp" inputmode="decimal" placeholder="Rate" style="text-align:center;padding:8px 2px"><button class="btn sm" id="ca">Add</button></div>
+ <div class="chips mt" id="chips"></div>
+ 
+ <div class="g g3 mt"><div><label>Discount</label><input id="disc" inputmode="decimal" placeholder="0"></div><div><label>Paid by</label><select id="mode"><option>Cash</option><option>UPI / QR</option><option>Card</option></select></div><div><label>Received</label><input id="recv" inputmode="decimal" placeholder="Full"></div></div><details><summary>VAT, odometer</summary><div class="g"><div><label>VAT</label><select id="gst"><option value="0">No</option><option value="1">Yes</option></select></div><div><label>Odometer km</label><input id="odo" inputmode="numeric"></div></div></details>
+ <div class="bar"><div id="sm" style="font-size:12px;color:var(--bad);font-weight:600;text-align:right"></div><div class="tot"><span>Total <b id="bal" class="due"></b></span><span class="big" id="total">Rs 0</span></div><div class="g"><button class="btn ghost" id="saveonly">Save</button><button class="btn pri" id="save">Save &amp; print</button></div></div>
+</section>
+<section class="pane" id="p-veh"><input id="vq" placeholder="Search number, owner, phone, ID…"><div id="vlist"></div></section>
+<section class="pane" id="p-bills"><input id="bq" placeholder="Search bill, number, owner…"><div id="blist"></div></section>
+<section class="pane" id="p-set">
+ <h3>Shop details</h3><div class="g"><div><label>Shop name</label><input id="s-name"></div><div><label>Phone</label><input id="s-phone"></div><div><label>Address</label><input id="s-addr"></div><div><label>VAT %</label><input id="s-tax" inputmode="decimal"></div></div>
+ <button class="btn mt" id="s-save">Save shop details</button>
+ <h3 class="mt">Quick-add list</h3><p style="color:var(--mut);margin:2px 0 6px;font-size:14px">One item per line, like: Oil change = 350</p><textarea id="cat" rows="9" placeholder="General service = 600&#10;Oil change = 350"></textarea><button class="btn mt" id="n-add">Save list</button>
+ <h3 class="mt">Backup &amp; export</h3><p id="fstat" style="color:var(--mut);margin:2px 0 6px;font-size:14px"></p><div style="display:flex;gap:6px;flex-wrap:wrap"><button class="btn ghost" id="pf">Backup folder</button><button class="btn ghost" id="exp">Backup now</button><button class="btn ghost" id="rf">Restore from folder</button><button class="btn ghost" id="csv">Export CSV</button><label class="btn ghost" style="margin:0">Restore file<input type="file" id="imp" accept=".json" hidden></label></div>
+</section>
+</main>
+<dialog id="dlg"></dialog><div id="toast"></div><div id="inv"></div>
+<script>
+const $=s=>document.querySelector(s),E=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const R=n=>'Rs '+Math.round(n||0).toLocaleString('en-IN'),N=s=>String(s||'').toUpperCase().replace(/[^A-Z0-9]/g,''),pad=(p,n)=>p+String(n).padStart(4,'0');
+const KEY='ws-billing-v1';const FB=window.Capacitor&&Capacitor.Plugins&&Capacitor.Plugins.FolderBackup;
+const DEF={shop:{name:'My Motor Workshop',phone:'',addr:'',tax:13},v:[],b:[],sv:0,sb:0,cat:[['General service',600],['Oil change',350],['Chain lube & adjust',150],['Brake adjust',150],['Puncture repair',150],['Washing',200],['Engine oil 1L',550],['Brake pads',450],['Spark plug',250],['Air filter',300],['Clutch cable',200],['Battery check',100]].map(([n,p])=>({n,p}))};
+let S;try{S=JSON.parse(localStorage.getItem(KEY))||structuredClone(DEF)}catch(e){S=structuredClone(DEF)}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S))}catch(e){toast('Could not save — storage blocked')}abk()};
+function toast(t){const e=$('#toast');e.textContent=t;e.style.display='block';clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display='none',2200)}
+const vById=id=>S.v.find(v=>v.id===id),vByPlate=p=>{const k=N(p);return k&&S.v.find(v=>N(v.plate)===k)};
+const day=d=>new Date(d).toDateString();
+let items=[],match=null;
+// tabs
+$('#nav').onclick=e=>{const t=e.target.dataset.t;if(!t)return;document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('on',b===e.target));document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+t));({veh:rVeh,bills:rBills,set:rSet,bill:head})[t]()};
+function head(){$('#shopName').textContent=S.shop.name||'Workshop';const du=S.b.reduce((a,b)=>a+b.total-b.paid,0);$('#dueTot').textContent=du>0?'· Due '+R(du):'';$('#today').textContent=R(S.b.filter(b=>day(b.d)===day(Date.now())).reduce((a,b)=>a+b.paid,0));
+ $('#plates').innerHTML=S.v.map(v=>`<option value="${E(v.plate)}">${E(v.owner)} · ${E(v.model)}</option>`).join('');
+ $('#chips').innerHTML=S.cat.map((c,i)=>`<button class="chip" data-i="${i}">${E(c.n)} <b>${c.p}</b></button>`).join('')}
+// bill form
+function lastBill(v){return S.b.filter(b=>b.vid===v.id).sort((a,b)=>b.d-a.d)[0]}
+$('#plate').oninput=e=>{e.target.value=e.target.value.toUpperCase();const v=vByPlate(e.target.value),bd=$('#badge');
+ if(v){if(match!==v.id){match=v.id;$('#owner').value=v.owner;$('#phone').value=v.phone;$('#model').value=v.model}
+  const lb=lastBill(v);$('#last').value=lb?new Date(lb.d).toLocaleDateString()+(lb.odo?' · '+lb.odo+' km':''):'First bill';if(lb&&!$('#odo').value)$('#odo').placeholder='Last '+(lb.odo||'—');
+  bd.className='badge found';bd.innerHTML=`<span class="id">${v.id}</span> Existing bike · ${S.b.filter(b=>b.vid===v.id).length} visits`}
+ else{match=null;$('#last').value='';bd.className='badge new';bd.textContent=e.target.value?'New bike — ID will be created on save':'Type the bike number to begin'}};
+$('#chips').onclick=e=>{const b=e.target.closest('.chip');if(!b)return;const c=S.cat[b.dataset.i],x=items.find(i=>i.n===c.n&&i.p===c.p);x?x.q++:items.push({n:c.n,p:c.p,q:1});rLines()};
+$('#ca').onclick=()=>{const n=$('#cn').value.trim(),p=+$('#cp').value,q=Math.max(1,+$('#cq').value||1);if(!n)return;items.push({n,p:p||0,q});$('#cn').value=$('#cp').value=$('#cq').value='';rLines();$('#cn').focus()};
+function rLines(){$('#lines').innerHTML=(items.length?'<div class="line hd"><span>Item</span><span>Qty</span><span>Rate</span><span></span></div>':'')+items.map((i,k)=>`<div class="line"><input value="${E(i.n)}" data-k="${k}" data-f="n"><input inputmode="numeric" class="c" value="${i.q}" data-k="${k}" data-f="q"><input inputmode="decimal" class="c" value="${i.p}" data-k="${k}" data-f="p"><button data-d="${k}" aria-label="Remove">×</button></div>`).join('')||'<p style="color:var(--mut);margin:0 0 8px">Nothing added yet.</p>';calc()}
+$('#lines').oninput=e=>{const d=e.target.dataset;if(d.f){items[d.k][d.f]=d.f==='n'?e.target.value:+e.target.value||0;calc()}};
+$('#lines').onclick=e=>{if(e.target.dataset.d!==undefined){items.splice(e.target.dataset.d,1);rLines()}};
+function sums(){const sub=items.reduce((a,i)=>a+i.q*i.p,0),disc=Math.min(+$('#disc').value||0,sub),tx=$('#gst').value==='1'?(sub-disc)*(S.shop.tax||0)/100:0;return{sub,disc,tx,total:Math.round(sub-disc+tx)}}
+function calc(){const s=sums();$('#sm').textContent=items.length?'Actual '+R(s.sub)+' · Discount '+R(s.disc)+' · VAT '+R(s.tx):'';$('#total').textContent=R(s.total);const r=$('#recv').value;$('#recv').placeholder='Full '+R(s.total);const d=Math.max(0,s.total-(r===''?s.total:+r));$('#bal').textContent=d?'Due '+R(d):''}
+['disc','gst','recv'].forEach(i=>$('#'+i).oninput=calc);
+function diff(v,n){const o=[];[['plate','Bike no'],['owner','Owner'],['phone','Phone'],['model','Model']].forEach(([k,l])=>{if((v[k]||'')!==(n[k]||'')){o.push(`${l}: ${v[k]||'—'} → ${n[k]||'—'}`);v[k]=n[k]}});if(o.length)(v.log=v.log||[]).unshift({t:Date.now(),c:o.join('; ')});return o.length}
+const doSave=pr=>{const plate=$('#plate').value.trim().toUpperCase();if(!plate)return toast('Enter the bike number'),$('#plate').focus();
+ const its=items.filter(i=>i.n.trim()&&i.q>0);if(!its.length)return toast('Add at least one item');
+ const d={plate,owner:$('#owner').value.trim(),phone:$('#phone').value.trim(),model:$('#model').value.trim()};let v=vByPlate(plate);
+ if(v)diff(v,d);else{v={id:pad('MV-',S.sv=(S.sv||0)+1),...d,created:Date.now(),log:[]};S.v.push(v)}
+ const s=sums(),rc=$('#recv').value,paid=Math.min(s.total,rc===''?s.total:+rc||0);
+ const b={no:pad('B-',++S.sb),d:Date.now(),vid:v.id,odo:$('#odo').value.trim(),items:its,disc:s.disc,tx:s.tx,total:s.total,paid,mode:$('#mode').value};S.b.push(b);save();
+ items=[];match=null;['plate','owner','phone','model','odo','last','disc','recv','bal'].forEach(i=>$('#'+i).value='');$('#gst').value='0';$('#odo').placeholder='';$('#plate').dispatchEvent(new Event('input'));rLines();head();toast('Saved '+b.no+' · '+v.id);if(pr)printBill(b.no)};$('#save').onclick=()=>doSave(1);$('#saveonly').onclick=()=>doSave(0);
+// lists
+function vStats(v){const bs=S.b.filter(b=>b.vid===v.id);return{n:bs.length,spent:bs.reduce((a,b)=>a+b.total,0),due:bs.reduce((a,b)=>a+b.total-b.paid,0)}}
+function rVeh(){const q=$('#vq').value.toLowerCase(),l=S.v.filter(v=>(v.id+v.plate+v.owner+v.phone+v.model).toLowerCase().includes(q)).sort((a,b)=>b.created-a.created);
+ $('#vlist').innerHTML=l.map(v=>{const s=vStats(v);return`<div class="row${s.due?' dr':''}" data-v="${v.id}"><div><span class="id">${v.id}</span> <b>${E(v.plate)}</b><small>${E(v.owner)||'—'} · ${E(v.model)||'—'} · ${E(v.phone)}</small></div><div style="text-align:right">${s.n} visits<small class="${s.due?'due':''}">${s.due?'Due '+R(s.due):R(s.spent)}</small></div></div>`}).join('')||'<p>No bikes yet. Make the first bill.</p>'}
+$('#vq').oninput=rVeh;$('#vlist').onclick=e=>{const r=e.target.closest('[data-v]');r&&vDlg(r.dataset.v)};
+function vDlg(id){const v=vById(id),bs=S.b.filter(b=>b.vid===id).sort((a,b)=>b.d-a.d);
+ $('#dlg').innerHTML=`<h2><span class="id">${v.id}</span> Edit bike</h2><p style="color:var(--mut);margin:2px 0 8px;font-size:14px">ID never changes. Bills stay linked.</p>
+ <div class="g"><div><label>Bike number</label><input id="e-plate" value="${E(v.plate)}"></div><div><label>Owner</label><input id="e-owner" value="${E(v.owner)}"></div><div><label>Phone</label><input id="e-phone" value="${E(v.phone)}"></div><div><label>Model</label><input id="e-model" value="${E(v.model)}"></div></div>
+ <div class="mt" style="display:flex;gap:8px"><button class="btn" id="e-save">Save changes</button><button class="btn ghost" id="e-close">Close</button></div>
+ <h3 class="mt">Bills (${bs.length})</h3>${bs.map(b=>`<div class="row" data-b="${b.no}"><div>${b.no}<small>${new Date(b.d).toLocaleDateString()}${b.odo?' · '+b.odo+' km':''}</small></div><div>${R(b.total)}${b.total>b.paid?`<small class="due">Due ${R(b.total-b.paid)}</small>`:''}</div></div>`).join('')||'<p>No bills.</p>'}
+ <h3 class="mt">Change history</h3>${(v.log||[]).map(l=>`<div class="log">${new Date(l.t).toLocaleString()} — ${E(l.c)}</div>`).join('')||'<p style="color:var(--mut)">No changes yet.</p>'}`;
+ $('#dlg').showModal();$('#e-close').onclick=()=>$('#dlg').close();
+ $('#e-save').onclick=()=>{const p=$('#e-plate').value.trim().toUpperCase(),o=vByPlate(p);if(!p||(o&&o.id!==id))return toast(o?'Number already belongs to '+o.id:'Enter bike number');
+  diff(v,{plate:p,owner:$('#e-owner').value.trim(),phone:$('#e-phone').value.trim(),model:$('#e-model').value.trim()});save();$('#dlg').close();rVeh();head();toast('Updated '+id)};
+ $('#dlg').onclick=e=>{const r=e.target.closest('[data-b]');if(r){$('#dlg').close();bDlg(r.dataset.b)}}}
+function rBills(){const q=$('#bq').value.toLowerCase();$('#blist').innerHTML=[...S.b].reverse().filter(b=>{const v=vById(b.vid)||{};return(b.no+v.plate+v.owner+v.id).toLowerCase().includes(q)}).slice(0,100).map(b=>{const v=vById(b.vid)||{};return`<div class="row${b.total>b.paid?' dr':''}" data-b="${b.no}"><div><b>${b.no}</b> <span class="id">${v.id}</span> ${E(v.plate)}<small>${new Date(b.d).toLocaleString()} · ${E(v.owner)}</small></div><div style="text-align:right">${R(b.total)}<small class="${b.total>b.paid?'due':'paid'}">${b.total>b.paid?'Due '+R(b.total-b.paid):'Paid'}</small></div></div>`}).join('')||'<p>No bills yet.</p>'}
+$('#bq').oninput=rBills;$('#blist').onclick=e=>{const r=e.target.closest('[data-b]');r&&bDlg(r.dataset.b)};
+function bDlg(no){const b=S.b.find(x=>x.no===no),v=vById(b.vid)||{},due=b.total-b.paid;
+ $('#dlg').innerHTML=`<h2>${b.no} · ${E(v.plate)}</h2><p style="color:var(--mut)">${new Date(b.d).toLocaleString()} · ${E(v.owner)} · ${v.id}</p>${b.items.map(i=>`<div class="row" style="cursor:default"><span>${E(i.n)} × ${i.q}</span><span>${R(i.q*i.p)}</span></div>`).join('')}<div style="font-size:12px;color:var(--bad);font-weight:600;text-align:right">Actual ${R(b.items.reduce((a,i)=>a+i.q*i.p,0))} · Discount ${R(b.disc)} · VAT ${R(b.tx)}</div><div class="tot"><span>Total</span><span class="big">${R(b.total)}</span></div>${due>0?`<div class="due">Due ${R(due)}</div><div class="g mt"><input id="pay" inputmode="decimal" placeholder="Amount received"><button class="btn" id="pay-b">Record payment</button></div>`:'<div class="paid">Fully paid</div>'}
+ <div class="mt" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn" id="b-print">Print</button><button class="btn ghost" id="b-share">Share</button><button class="btn ghost" id="b-del">Delete</button><button class="btn ghost" id="b-close">Close</button></div>`;$('#dlg').onclick=null;$('#dlg').showModal();
+ $('#b-close').onclick=()=>$('#dlg').close();$('#b-print').onclick=()=>{$('#dlg').close();printBill(no)};$('#b-share').onclick=()=>{const t=S.shop.name+'\nBill '+b.no+' · '+v.plate+'\n'+b.items.map(i=>i.n+' x'+i.q+' = '+i.q*i.p).join('\n')+'\nTotal '+R(b.total)+(due>0?'\nDue '+R(due):'');navigator.share?navigator.share({text:t}).catch(()=>{}):navigator.clipboard&&navigator.clipboard.writeText(t).then(()=>toast('Bill text copied'))};
+ $('#b-del').onclick=()=>{if(confirm('Delete bill '+no+'?')){S.b=S.b.filter(x=>x!==b);save();$('#dlg').close();rBills();head()}};
+ if(due>0)$('#pay-b').onclick=()=>{const a=+$('#pay').value;if(!a)return;b.paid=Math.min(b.total,b.paid+a);save();$('#dlg').close();rBills();head();toast('Payment recorded')}}
+// invoice
+function printBill(no){const b=S.b.find(x=>x.no===no),v=vById(b.vid)||{},s=S.shop;
+ $('#inv').innerHTML=`<h1 style="margin:0">${E(s.name)}</h1><div>${E(s.addr)} ${E(s.phone)}</div><hr><div style="display:flex;justify-content:space-between"><div><b>Bill ${b.no}</b><br>${new Date(b.d).toLocaleString()}</div><div style="text-align:right"><b>${E(v.plate)}</b> (ID ${v.id})<br>${E(v.owner)} ${E(v.phone)}<br>${E(v.model)}${b.odo?' · '+b.odo+' km':''}</div></div><br><table><tr><th>Item</th><th class="r">Qty</th><th class="r">Rate</th><th class="r">Amount</th></tr>${b.items.map(i=>`<tr><td>${E(i.n)}</td><td class="r">${i.q}</td><td class="r">${i.p}</td><td class="r">${i.q*i.p}</td></tr>`).join('')}</table><p class="r" style="text-align:right"><small>Actual: ${R(b.items.reduce((a,i)=>a+i.q*i.p,0))}<br>Discount: −${R(b.disc)}<br>VAT: ${R(b.tx)}</small><br><b style="font-size:20px">Total: ${R(b.total)}</b><br>Paid (${E(b.mode)}): ${R(b.paid)}${b.total>b.paid?'<br><b>Balance due: '+R(b.total-b.paid)+'</b>':''}</p><p style="text-align:center">Thank you. Ride safe!</p>`;const h='<meta name="viewport" content="width=device-width"><style>body{font:14px Arial,sans-serif;padding:8px}table{width:100%;border-collapse:collapse}td,th{padding:5px;border-bottom:1px solid #999;text-align:left}.r{text-align:right}</style>'+$('#inv').innerHTML;FB?FB.printHtml({html:h}):setTimeout(()=>window.print(),150)}
+// setup
+function rSet(){$('#s-name').value=S.shop.name;$('#s-phone').value=S.shop.phone;$('#s-addr').value=S.shop.addr;$('#s-tax').value=S.shop.tax;
+ $('#cat').value=S.cat.map(c=>c.n+' = '+c.p).join('\n');fs()}
+$('#s-save').onclick=()=>{S.shop={name:$('#s-name').value.trim(),phone:$('#s-phone').value.trim(),addr:$('#s-addr').value.trim(),tax:+$('#s-tax').value||0};save();head();toast('Shop details saved')};
+$('#n-add').onclick=()=>{S.cat=$('#cat').value.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{const m=l.match(/^(.*?)\s*(?:[=:]|\s)\s*([\d.,]+)$/);return m&&m[1]?{n:m[1].trim(),p:parseFloat(m[2].replace(/,/g,''))||0}:{n:l,p:0}});save();rSet();head();toast(S.cat.length+' items saved')};
+
+$('#exp').onclick=()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([JSON.stringify(S)],{type:'application/json'}));a.download='workshop-backup-'+new Date().toISOString().slice(0,10)+'.json';a.click()};
+$('#imp').onchange=e=>{const f=e.target.files[0];if(!f)return;f.text().then(t=>{try{const d=JSON.parse(t);if(!d.v||!d.b)throw 0;S=d;save();head();rSet();toast('Backup restored')}catch(x){toast('Not a valid backup file')}})};
+const dl=(n,t,m)=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([t],{type:m||'text/csv'}));a.download=n;a.click()};
+const cs=v=>{v=String(v==null?'':v);return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v};
+const toCsv=(h,rows)=>'\uFEFF'+[h,...rows].map(r=>r.map(cs).join(',')).join('\r\n');
+function csvs(){const V=id=>vById(id)||{},dt=t=>new Date(t).toISOString().slice(0,10);
+ return{'vehicles.csv':toCsv(['Vehicle ID','Bike number','Owner','Phone','Model','Created','Bills','Total billed','Total due'],S.v.map(v=>{const s=vStats(v);return[v.id,v.plate,v.owner,v.phone,v.model,dt(v.created),s.n,s.spent,s.due]})),
+ 'bills.csv':toCsv(['Bill no','Date','Vehicle ID','Bike number','Owner','Phone','Model','Odometer','Discount','VAT','Total','Paid','Due','Paid by'],S.b.map(b=>{const v=V(b.vid);return[b.no,dt(b.d),b.vid,v.plate,v.owner,v.phone,v.model,b.odo,b.disc,Math.round(b.tx),b.total,b.paid,b.total-b.paid,b.mode]})),
+ 'bill_items.csv':toCsv(['Bill no','Date','Vehicle ID','Bike number','Item','Qty','Rate','Amount'],S.b.flatMap(b=>b.items.map(i=>[b.no,dt(b.d),b.vid,V(b.vid).plate,i.n,i.q,i.p,i.q*i.p])))}}
+function fs(){$('#fstat').textContent=FB?(localStorage.getItem('ws-folder')?'Backup folder is set. Every entry is saved there automatically.':'No backup folder chosen yet.'):'Browser mode: use the download buttons.'}
+var abT;function abk(){if(!FB||!localStorage.getItem('ws-folder'))return;clearTimeout(abT);abT=setTimeout(()=>doBackup(),400)}
+async function doBackup(m){const u=localStorage.getItem('ws-folder');if(!u)return folderDlg();try{await FB.write({uri:u,name:'workshop-backup.json',data:JSON.stringify(S)});for(const[n,t]of Object.entries(csvs()))await FB.write({uri:u,name:n,data:t});if(m)toast('Backup and CSV saved to folder')}catch(e){localStorage.removeItem('ws-folder');fs();toast('Folder not reachable. Choose it again.');folderDlg()}}
+async function pickFolder(){try{const r=await FB.pickFolder();localStorage.setItem('ws-folder',r.uri);const x=await FB.read({uri:r.uri,name:'workshop-backup.json'});let d=null;try{d=JSON.parse(x.data)}catch(e){}
+ if(d&&d.v&&d.b&&((!S.b.length&&!S.v.length)||confirm('Backup found: '+d.v.length+' bikes, '+d.b.length+' bills. OK = restore it. Cancel = keep this phone\u2019s data (folder backup will be replaced).'))){S=d;toast('Backup restored')}
+ save();if($('#dlg').open)$('#dlg').close();head();rSet()}catch(e){toast('Folder not chosen')}}
+function folderDlg(){$('#dlg').innerHTML='<h2>Choose a backup folder</h2><p style="color:var(--mut)">Pick a folder (for example Documents/WorkshopBackup). Every bill is saved there automatically. If you reinstall the app, choose the same folder and your data comes back.</p><button class="btn pri" id="pf2">Choose folder</button>';$('#dlg').onclick=null;if(!$('#dlg').open)$('#dlg').showModal();$('#pf2').onclick=pickFolder}
+async function restoreF(){const u=localStorage.getItem('ws-folder');if(!u)return folderDlg();try{const x=await FB.read({uri:u,name:'workshop-backup.json'}),d=JSON.parse(x.data);if(!d.v||!d.b)throw 0;if(confirm('Replace data on this phone with the folder backup?')){S=d;save();head();rSet();toast('Restored')}}catch(e){toast('No backup found in folder')}}
+$('#pf').onclick=()=>FB?pickFolder():toast('Only in the Android app');
+$('#exp').onclick=()=>FB?doBackup(1):dl('workshop-backup.json',JSON.stringify(S),'application/json');
+$('#rf').onclick=()=>FB?restoreF():toast('Only in the Android app');
+$('#csv').onclick=()=>{if(FB)return doBackup(1);for(const[n,t]of Object.entries(csvs()))dl(n,t)};
+head();rLines();fs();if(FB&&!localStorage.getItem('ws-folder'))folderDlg();
+</script></body></html>
